@@ -1,0 +1,48 @@
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.cube{
+    width:30px;
+    height:30px;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    transform:rotate(45deg);
+    border-radius:6px;
+    position:relative;
+}
+
+.cube::before{
+    content:"";
+    position:absolute;
+    width:16px;
+    height:16px;
+    background:#60a5fa;
+    top:-8px;
+    left:7px;
+    transform:rotate(-45deg);
+    border-radius:4px;
+}
+
+.logo-text h2{
+    margin:0;
+    font-size:24px;
+    font-weight:800;
+    color:#111827;
+    letter-spacing:1px;
+}
+
+.logo-text p{
+    margin:2px 0 0;
+    color:#6b7280;
+    font-size:12px;
+}
