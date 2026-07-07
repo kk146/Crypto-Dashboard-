@@ -1,4 +1,4 @@
-```jsx
+
 import {
   Chart as ChartJS,
   ArcElement,
@@ -115,4 +115,4 @@ function MarketPieChart({ coins }) {
 }
 
 export default MarketPieChart;
-```
+
