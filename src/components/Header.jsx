@@ -3,6 +3,7 @@ import logo from "../assets/alma-logo.png";
 function Header({ currency, setCurrency, search, setSearch }) {
   return (
     <header className="header">
+      
       <div className="currency-box">
         <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
           <option value="usd">USD</option>
@@ -11,6 +12,13 @@ function Header({ currency, setCurrency, search, setSearch }) {
           <option value="gbp">GBP</option>
         </select>
       </div>
+      <div className="logo">
+  <img
+    src={logo}
+    alt="AlmaBetter"
+    className="logo-image"
+  />
+</div>
 
       <div className="search-box">
         <input
