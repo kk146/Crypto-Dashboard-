@@ -1,5 +1,5 @@
 import "../Styles/Header.css";
-
+import logo from "../assets/alma-logo.png";
 function Header({ currency, setCurrency, search, setSearch }) {
   return (
     <header className="header">
