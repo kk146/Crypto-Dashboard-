@@ -1,0 +1,83 @@
+/* ===========================
+   HEADER
+=========================== */
+
+.header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 25px;
+}
+
+/* Currency */
+
+.currency-box {
+  width: 180px;
+}
+
+.currency-box select {
+  width: 100%;
+
+  padding: 14px;
+
+  border: 1px solid #d9d9d9;
+
+  border-radius: 12px;
+
+  background: white;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.currency-box select:hover {
+  border-color: #2563eb;
+}
+
+/* Search */
+
+.search-box {
+  flex: 1;
+}
+
+.search-box input {
+  width: 100%;
+
+  padding: 14px 18px;
+
+  border-radius: 12px;
+
+  border: 1px solid #d9d9d9;
+
+  font-size: 15px;
+
+  transition: 0.3s;
+}
+
+.search-box input:focus {
+  outline: none;
+
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .currency-box {
+    width: 100%;
+  }
+}

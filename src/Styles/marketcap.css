@@ -1,0 +1,65 @@
+```css
+.market-card{
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    height:100%;
+}
+
+.market-list{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    max-height:420px;
+    overflow-y:auto;
+}
+
+.coin-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:12px;
+    border-bottom:1px solid #f1f5f9;
+}
+
+.coin-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.coin-info img{
+    width:42px;
+    height:42px;
+}
+
+.coin-info h4{
+    margin:0;
+    font-size:15px;
+}
+
+.coin-info span{
+    color:#888;
+    font-size:13px;
+}
+
+.coin-price{
+    text-align:right;
+}
+
+.coin-price strong{
+    display:block;
+    font-size:15px;
+}
+
+.green{
+    color:#10b981;
+    font-weight:600;
+}
+
+.red{
+    color:#ef4444;
+    font-weight:600;
+}
+```
