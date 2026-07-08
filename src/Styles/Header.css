@@ -1,92 +1,61 @@
-/* ===========================
-   HEADER
-=========================== */
-.logo{
-  display:flex;
-  align-items:center;
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#ffffff;
+    padding:20px 30px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    margin-bottom:25px;
 }
 
-.logo-image{
-  height:42px;
-  width:auto;
-}
-.header {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  gap: 25px;
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
 }
 
-
-/* Currency */
-
-.currency-box {
-  width: 180px;
+.header-logo{
+    width:55px;
+    height:55px;
+    object-fit:contain;
 }
 
-.currency-box select {
-  width: 100%;
-
-  padding: 14px;
-
-  border: 1px solid #d9d9d9;
-
-  border-radius: 12px;
-
-  background: white;
-
-  font-size: 15px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.3s;
+.logo-text{
+    display:flex;
+    flex-direction:column;
 }
 
-.currency-box select:hover {
-  border-color: #2563eb;
+.logo-text h2{
+    margin:0;
+    font-size:24px;
+    font-weight:700;
+    color:#111827;
 }
 
-/* Search */
-
-.search-box {
-  flex: 1;
+.logo-text span{
+    font-size:13px;
+    color:#64748b;
 }
 
-.search-box input {
-  width: 100%;
-
-  padding: 14px 18px;
-
-  border-radius: 12px;
-
-  border: 1px solid #d9d9d9;
-
-  font-size: 15px;
-
-  transition: 0.3s;
+.search-box{
+    flex:1;
+    margin:0 30px;
 }
 
-.search-box input:focus {
-  outline: none;
-
-  border-color: #2563eb;
-
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+.search-box input{
+    width:100%;
+    padding:14px 18px;
+    border:1px solid #dbe4f0;
+    border-radius:12px;
+    outline:none;
+    font-size:15px;
 }
 
-/* Responsive */
-
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-  }
-
-  .currency-box {
-    width: 100%;
-  }
+.currency-box select{
+    padding:12px 18px;
+    border:1px solid #dbe4f0;
+    border-radius:12px;
+    background:#fff;
+    cursor:pointer;
 }
