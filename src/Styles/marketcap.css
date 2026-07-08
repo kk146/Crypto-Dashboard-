@@ -1,40 +1,39 @@
 .marketcap-card{
-    background:#ffffff;
+    background:#fff;
     border-radius:20px;
-    padding:24px;
+    padding:22px;
     box-shadow:0 10px 25px rgba(0,0,0,.08);
-    height:100%;
+
+    height:540px;
+    display:flex;
+    flex-direction:column;
 }
 
 .marketcap-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
     margin-bottom:20px;
 }
 
 .marketcap-header h2{
     margin:0;
-    font-size:24px;
+    font-size:22px;
     font-weight:700;
     color:#111827;
+    line-height:1.3;
 }
 
 .market-list{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-    max-height:420px;
+    flex:1;
     overflow-y:auto;
+    padding-right:8px;
 }
 
 .market-list::-webkit-scrollbar{
-    width:6px;
+    width:5px;
 }
 
 .market-list::-webkit-scrollbar-thumb{
     background:#d1d5db;
-    border-radius:10px;
+    border-radius:20px;
 }
 
 .market-item{
@@ -42,51 +41,43 @@
     justify-content:space-between;
     align-items:center;
     padding:14px 0;
-    border-bottom:1px solid #edf2f7;
+    border-bottom:1px solid #f1f5f9;
+}
+
+.market-item:last-child{
+    border-bottom:none;
 }
 
 .market-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.market-left img{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-}
-
-.market-info{
     display:flex;
     flex-direction:column;
 }
 
 .market-name{
     font-size:16px;
-    font-weight:600;
-    color:#111827;
-}
-
-.market-symbol{
-    font-size:13px;
-    color:#9ca3af;
-    text-transform:uppercase;
-}
-
-.market-right{
-    text-align:right;
-}
-
-.market-price{
-    font-size:16px;
     font-weight:700;
     color:#111827;
 }
 
-.market-change{
+.market-symbol{
     margin-top:4px;
+    font-size:12px;
+    color:#9ca3af;
+}
+
+.market-right{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.market-price{
     font-size:14px;
+    font-weight:600;
+}
+
+.market-change{
+    font-size:13px;
     font-weight:600;
 }
 
@@ -96,13 +87,4 @@
 
 .market-change.negative{
     color:#ef4444;
-}
-
-.loading-market{
-    height:320px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:18px;
-    color:#6b7280;
 }
