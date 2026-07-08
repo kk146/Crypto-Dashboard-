@@ -1,65 +1,107 @@
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-.market-card{
-    background:#fff;
-    border-radius:20px;
-    padding:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    height:100%;
+import { Doughnut } from "react-chartjs-2";
+
+import "../Styles/marketpie.css";
+
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend
+);
+
+function MarketPieChart({ coins }) {
+  if (!coins || coins.length === 0) {
+    return (
+      <div className="portfolio-card">
+        <h3>Loading Portfolio...</h3>
+      </div>
+    );
+  }
+
+  // Top 3 coins
+  const topCoins = coins.slice(0, 3);
+
+  const totalValue = topCoins.reduce(
+    (sum, coin) => sum + coin.current_price,
+    0
+  );
+
+  const data = {
+    labels: topCoins.map((coin) => coin.name),
+
+    datasets: [
+      {
+        data: topCoins.map((coin) => coin.current_price),
+
+        backgroundColor: [
+          "#3B82F6",
+          "#10B981",
+          "#FB7185",
+        ],
+
+        borderWidth: 0,
+
+        hoverOffset: 8,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+
+    maintainAspectRatio: false,
+
+    cutout: "70%",
+
+    plugins: {
+      legend: {
+        position: "right",
+
+        labels: {
+          usePointStyle: true,
+          pointStyle: "circle",
+          padding: 18,
+          font: {
+            size: 14,
+          },
+        },
+      },
+    },
+  };
+
+  return (
+    <div className="portfolio-card">
+
+      <div className="portfolio-header">
+        <h2>Portfolio</h2>
+
+        <div className="portfolio-value">
+          <span>Total Value</span>
+
+          <h3>
+            $
+            {totalValue.toFixed(0)}
+          </h3>
+        </div>
+      </div>
+
+      <div className="portfolio-chart">
+
+        <Doughnut
+          data={data}
+          options={options}
+        />
+
+      </div>
+
+    </div>
+  );
 }
 
-.market-list{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-    max-height:420px;
-    overflow-y:auto;
-}
-
-.coin-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding-bottom:12px;
-    border-bottom:1px solid #f1f5f9;
-}
-
-.coin-info{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.coin-info img{
-    width:42px;
-    height:42px;
-}
-
-.coin-info h4{
-    margin:0;
-    font-size:15px;
-}
-
-.coin-info span{
-    color:#888;
-    font-size:13px;
-}
-
-.coin-price{
-    text-align:right;
-}
-
-.coin-price strong{
-    display:block;
-    font-size:15px;
-}
-
-.green{
-    color:#10b981;
-    font-weight:600;
-}
-
-.red{
-    color:#ef4444;
-    font-weight:600;
-}
-
+export default MarketPieChart;
