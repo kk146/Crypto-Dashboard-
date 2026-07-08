@@ -1,4 +1,3 @@
-
 import {
   Chart as ChartJS,
   ArcElement,
@@ -7,7 +6,8 @@ import {
 } from "chart.js";
 
 import { Doughnut } from "react-chartjs-2";
-import "../Styles/piechart.css";
+
+import "../Styles/marketpie.css";
 
 ChartJS.register(
   ArcElement,
@@ -16,43 +16,38 @@ ChartJS.register(
 );
 
 function MarketPieChart({ coins }) {
-  console.log("MarketPieChart Coins:", coins);
-
   if (!coins || coins.length === 0) {
     return (
       <div className="portfolio-card">
-        <h2 className="portfolio-title">Portfolio</h2>
-
-        <div className="portfolio-loading">
-          Loading Portfolio...
-        </div>
+        <h3>Loading Portfolio...</h3>
       </div>
     );
   }
 
-  // Take Top 5 Coins
-  const topCoins = coins.slice(0, 5);
+  // Top 3 coins
+  const topCoins = coins.slice(0, 3);
+
+  const totalValue = topCoins.reduce(
+    (sum, coin) => sum + coin.current_price,
+    0
+  );
 
   const data = {
     labels: topCoins.map((coin) => coin.name),
 
     datasets: [
       {
-        data: topCoins.map((coin) => coin.market_cap),
+        data: topCoins.map((coin) => coin.current_price),
 
         backgroundColor: [
-          "#2563eb",
-          "#22c55e",
-          "#f59e0b",
-          "#ef4444",
-          "#8b5cf6",
+          "#3B82F6",
+          "#10B981",
+          "#FB7185",
         ],
 
-        borderColor: "#ffffff",
+        borderWidth: 0,
 
-        borderWidth: 3,
-
-        hoverOffset: 18,
+        hoverOffset: 8,
       },
     ],
   };
@@ -66,32 +61,14 @@ function MarketPieChart({ coins }) {
 
     plugins: {
       legend: {
-        position: "bottom",
+        position: "right",
 
         labels: {
           usePointStyle: true,
           pointStyle: "circle",
-          padding: 20,
+          padding: 18,
           font: {
-            size: 13,
-          },
-        },
-      },
-
-      tooltip: {
-        backgroundColor: "#1f2937",
-
-        titleColor: "#ffffff",
-
-        bodyColor: "#ffffff",
-
-        callbacks: {
-          label: function (context) {
-            return (
-              context.label +
-              " : $" +
-              context.raw.toLocaleString()
-            );
+            size: 14,
           },
         },
       },
@@ -100,19 +77,31 @@ function MarketPieChart({ coins }) {
 
   return (
     <div className="portfolio-card">
-      <h2 className="portfolio-title">
-        Portfolio
-      </h2>
+
+      <div className="portfolio-header">
+        <h2>Portfolio</h2>
+
+        <div className="portfolio-value">
+          <span>Total Value</span>
+
+          <h3>
+            $
+            {totalValue.toFixed(0)}
+          </h3>
+        </div>
+      </div>
 
       <div className="portfolio-chart">
+
         <Doughnut
           data={data}
           options={options}
         />
+
       </div>
+
     </div>
   );
 }
 
 export default MarketPieChart;
-
