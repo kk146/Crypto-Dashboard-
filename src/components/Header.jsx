@@ -1,3 +1,4 @@
+import logo from "../Almabetterlogo.png";
 import "../Styles/Header.css";
 import logo from "../assets/alma-logo.png";
 function Header({ currency, setCurrency, search, setSearch }) {
