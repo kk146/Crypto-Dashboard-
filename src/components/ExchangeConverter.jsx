@@ -4,21 +4,18 @@ import "../Styles/converter.css";
 
 function ExchangeConverter({ currency = "usd" }) {
   const [rates, setRates] = useState({});
-  const [amount, setAmount] = useState(1);
-  const [from, setFrom] = useState(currency);
-  const [to, setTo] = useState("btc");
+  const [sell, setSell] = useState(currency);
+  const [buy, setBuy] = useState("btc");
+  const [amount, setAmount] = useState(1000);
   const [result, setResult] = useState("");
 
   useEffect(() => {
     const loadRates = async () => {
       try {
         const data = await getExchangeRates();
-
-        if (data) {
-          setRates(data);
-        }
-      } catch (error) {
-        console.error("Exchange API Error:", error);
+        setRates(data);
+      } catch (err) {
+        console.error(err);
       }
     };
 
@@ -26,72 +23,90 @@ function ExchangeConverter({ currency = "usd" }) {
   }, []);
 
   useEffect(() => {
-    setFrom(currency);
+    setSell(currency);
   }, [currency]);
 
-  const convert = () => {
-    if (!amount || isNaN(amount)) {
-      setResult("Please enter a valid amount");
+  const handleExchange = () => {
+    if (!rates[sell] || !rates[buy]) {
+      setResult("Exchange unavailable");
       return;
     }
 
-    if (!rates[from] || !rates[to]) {
-      setResult("Conversion unavailable");
-      return;
-    }
-
-    const fromRate = rates[from].value;
-    const toRate = rates[to].value;
+    const fromRate = rates[sell].value;
+    const toRate = rates[buy].value;
 
     const btcValue = Number(amount) / fromRate;
     const converted = btcValue * toRate;
 
-    const text =
-      amount +
-      " " +
-      from.toUpperCase() +
-      " = " +
-      converted.toFixed(6) +
-      " " +
-      to.toUpperCase();
-
-    setResult(text);
+    setResult(`${converted.toFixed(6)} ${buy.toUpperCase()}`);
   };
 
   return (
-    <div className="converter">
-      <h2 className="section-title">Exchange Coins</h2>
+    <div className="converter-card">
 
-      <input
-        type="number"
-        value={amount}
-        placeholder="Enter Amount"
-        onChange={(e) => setAmount(e.target.value)}
-      />
-
-      <div className="converter-row">
-        <select value={from} onChange={(e) => setFrom(e.target.value)}>
-          {Object.keys(rates).map((key) => (
-            <option key={key} value={key}>
-              {key.toUpperCase()}
-            </option>
-          ))}
-        </select>
-
-        <select value={to} onChange={(e) => setTo(e.target.value)}>
-          {Object.keys(rates).map((key) => (
-            <option key={key} value={key}>
-              {key.toUpperCase()}
-            </option>
-          ))}
-        </select>
+      <div className="converter-header">
+        <h2>Exchange Coins</h2>
       </div>
 
-      <button className="convert-btn" onClick={convert}>
-        Convert
+      <div className="exchange-box">
+
+        <label>Sell</label>
+
+        <div className="exchange-row">
+          <select
+            value={sell}
+            onChange={(e) => setSell(e.target.value)}
+          >
+            {Object.keys(rates).map((coin) => (
+              <option key={coin} value={coin}>
+                {coin.toUpperCase()}
+              </option>
+            ))}
+          </select>
+
+          <input
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </div>
+
+      </div>
+
+      <div className="swap-icon">
+        ⇅
+      </div>
+
+      <div className="exchange-box">
+
+        <label>Buy</label>
+
+        <div className="exchange-row">
+          <select
+            value={buy}
+            onChange={(e) => setBuy(e.target.value)}
+          >
+            {Object.keys(rates).map((coin) => (
+              <option key={coin} value={coin}>
+                {coin.toUpperCase()}
+              </option>
+            ))}
+          </select>
+
+          <div className="buy-result">
+            {result || "0.000000"}
+          </div>
+        </div>
+
+      </div>
+
+      <button
+        className="exchange-btn"
+        onClick={handleExchange}
+      >
+        Exchange
       </button>
 
-      {result && <div className="result-box">{result}</div>}
     </div>
   );
 }
