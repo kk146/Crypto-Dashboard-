@@ -1,107 +1,108 @@
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
-import { Doughnut } from "react-chartjs-2";
-
-import "../Styles/marketpie.css";
-
-ChartJS.register(
-  ArcElement,
-  Tooltip,
-  Legend
-);
-
-function MarketPieChart({ coins }) {
-  if (!coins || coins.length === 0) {
-    return (
-      <div className="portfolio-card">
-        <h3>Loading Portfolio...</h3>
-      </div>
-    );
-  }
-
-  // Top 3 coins
-  const topCoins = coins.slice(0, 3);
-
-  const totalValue = topCoins.reduce(
-    (sum, coin) => sum + coin.current_price,
-    0
-  );
-
-  const data = {
-    labels: topCoins.map((coin) => coin.name),
-
-    datasets: [
-      {
-        data: topCoins.map((coin) => coin.current_price),
-
-        backgroundColor: [
-          "#3B82F6",
-          "#10B981",
-          "#FB7185",
-        ],
-
-        borderWidth: 0,
-
-        hoverOffset: 8,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-
-    maintainAspectRatio: false,
-
-    cutout: "70%",
-
-    plugins: {
-      legend: {
-        position: "right",
-
-        labels: {
-          usePointStyle: true,
-          pointStyle: "circle",
-          padding: 18,
-          font: {
-            size: 14,
-          },
-        },
-      },
-    },
-  };
-
-  return (
-    <div className="portfolio-card">
-
-      <div className="portfolio-header">
-        <h2>Portfolio</h2>
-
-        <div className="portfolio-value">
-          <span>Total Value</span>
-
-          <h3>
-            $
-            {totalValue.toFixed(0)}
-          </h3>
-        </div>
-      </div>
-
-      <div className="portfolio-chart">
-
-        <Doughnut
-          data={data}
-          options={options}
-        />
-
-      </div>
-
-    </div>
-  );
+.marketcap-card{
+    background:#ffffff;
+    border-radius:20px;
+    padding:24px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    height:100%;
 }
 
-export default MarketPieChart;
+.marketcap-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.marketcap-header h2{
+    margin:0;
+    font-size:24px;
+    font-weight:700;
+    color:#111827;
+}
+
+.market-list{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    max-height:420px;
+    overflow-y:auto;
+}
+
+.market-list::-webkit-scrollbar{
+    width:6px;
+}
+
+.market-list::-webkit-scrollbar-thumb{
+    background:#d1d5db;
+    border-radius:10px;
+}
+
+.market-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 0;
+    border-bottom:1px solid #edf2f7;
+}
+
+.market-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.market-left img{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+}
+
+.market-info{
+    display:flex;
+    flex-direction:column;
+}
+
+.market-name{
+    font-size:16px;
+    font-weight:600;
+    color:#111827;
+}
+
+.market-symbol{
+    font-size:13px;
+    color:#9ca3af;
+    text-transform:uppercase;
+}
+
+.market-right{
+    text-align:right;
+}
+
+.market-price{
+    font-size:16px;
+    font-weight:700;
+    color:#111827;
+}
+
+.market-change{
+    margin-top:4px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.market-change.positive{
+    color:#10b981;
+}
+
+.market-change.negative{
+    color:#ef4444;
+}
+
+.loading-market{
+    height:320px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:18px;
+    color:#6b7280;
+}
