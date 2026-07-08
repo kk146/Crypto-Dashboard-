@@ -1,0 +1,76 @@
+/* ===========================
+   Portfolio Card
+=========================== */
+
+.portfolio-card{
+    background:#ffffff;
+    border-radius:20px;
+    padding:24px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    height:100%;
+}
+
+/* ===========================
+   Header
+=========================== */
+
+.portfolio-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.portfolio-header h2{
+    margin:0;
+    font-size:26px;
+    font-weight:700;
+    color:#111827;
+}
+
+.portfolio-value{
+    text-align:right;
+}
+
+.portfolio-value span{
+    display:block;
+    font-size:13px;
+    color:#9ca3af;
+}
+
+.portfolio-value h3{
+    margin-top:4px;
+    font-size:28px;
+    font-weight:700;
+    color:#111827;
+}
+
+/* ===========================
+   Doughnut Chart
+=========================== */
+
+.portfolio-chart{
+    width:100%;
+    height:320px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.portfolio-chart canvas{
+    max-width:280px !important;
+    max-height:280px !important;
+}
+
+/* ===========================
+   Loading
+=========================== */
+
+.portfolio-loading{
+    height:320px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:18px;
+    color:#6b7280;
+}
