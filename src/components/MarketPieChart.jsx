@@ -6,8 +6,7 @@ import {
 } from "chart.js";
 
 import { Doughnut } from "react-chartjs-2";
-
-import "../Styles/marketpie.css";
+import "../Styles/portfolio.css";
 
 ChartJS.register(
   ArcElement,
@@ -15,39 +14,22 @@ ChartJS.register(
   Legend
 );
 
-function MarketPieChart({ coins }) {
-  if (!coins || coins.length === 0) {
-    return (
-      <div className="portfolio-card">
-        <h3>Loading Portfolio...</h3>
-      </div>
-    );
-  }
-
-  // Top 3 coins
-  const topCoins = coins.slice(0, 3);
-
-  const totalValue = topCoins.reduce(
-    (sum, coin) => sum + coin.current_price,
-    0
-  );
+function Portfolio() {
 
   const data = {
-    labels: topCoins.map((coin) => coin.name),
+    labels: ["Tether", "Luna", "Ethereum"],
 
     datasets: [
       {
-        data: topCoins.map((coin) => coin.current_price),
+        data: [375, 375, 250],
 
         backgroundColor: [
-          "#3B82F6",
-          "#10B981",
-          "#FB7185",
+          "#4F8EF7",
+          "#FF7C86",
+          "#61D6C5",
         ],
 
         borderWidth: 0,
-
-        hoverOffset: 8,
       },
     ],
   };
@@ -57,7 +39,7 @@ function MarketPieChart({ coins }) {
 
     maintainAspectRatio: false,
 
-    cutout: "70%",
+    cutout: "0%",
 
     plugins: {
       legend: {
@@ -67,6 +49,7 @@ function MarketPieChart({ coins }) {
           usePointStyle: true,
           pointStyle: "circle",
           padding: 18,
+
           font: {
             size: 14,
           },
@@ -78,17 +61,17 @@ function MarketPieChart({ coins }) {
   return (
     <div className="portfolio-card">
 
-      <div className="portfolio-header">
-        <h2>Portfolio</h2>
+      <div className="portfolio-top">
 
-        <div className="portfolio-value">
-          <span>Total Value</span>
-
-          <h3>
-            $
-            {totalValue.toFixed(0)}
-          </h3>
+        <div>
+          <h3>Portfolio</h3>
         </div>
+
+        <div className="portfolio-total">
+          <span>Total value</span>
+          <h2>$1000</h2>
+        </div>
+
       </div>
 
       <div className="portfolio-chart">
@@ -104,4 +87,4 @@ function MarketPieChart({ coins }) {
   );
 }
 
-export default MarketPieChart;
+export default Portfolio;
