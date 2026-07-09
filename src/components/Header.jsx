@@ -1,10 +1,23 @@
+import logo from "../Almabetterlogo.png";
 import "../Styles/Header.css";
 
 function Header({ currency, setCurrency, search, setSearch }) {
   return (
     <header className="header">
 
-      {/* Currency Dropdown */}
+      <div className="header-logo">
+        <img src={logo} alt="AlmaBetter" />
+      </div>
+
+      <div className="search-box">
+        <input
+          type="text"
+          placeholder="Search by coin..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
       <div className="currency-box">
         <select
           value={currency}
@@ -15,16 +28,6 @@ function Header({ currency, setCurrency, search, setSearch }) {
           <option value="eur">EUR</option>
           <option value="gbp">GBP</option>
         </select>
-      </div>
-
-      {/* Search Box */}
-      <div className="search-box">
-        <input
-          type="text"
-          placeholder="Search by coin..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
       </div>
 
     </header>
