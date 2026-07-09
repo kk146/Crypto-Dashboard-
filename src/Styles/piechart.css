@@ -1,34 +1,62 @@
-
 .portfolio-card{
+
     background:#ffffff;
-    border-radius:20px;
-    padding:20px;
+
+    border-radius:18px;
+
+    padding:22px;
+
     box-shadow:0 10px 25px rgba(0,0,0,.08);
-    height:420px;
-    display:flex;
-    flex-direction:column;
+
+    height:100%;
 }
 
-.portfolio-title{
-    font-size:22px;
-    font-weight:700;
-    color:#111827;
+.portfolio-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
     margin-bottom:20px;
 }
 
+.portfolio-top h3{
+
+    margin:0;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#222;
+}
+
+.portfolio-total{
+
+    text-align:right;
+}
+
+.portfolio-total span{
+
+    color:#9ca3af;
+
+    font-size:13px;
+}
+
+.portfolio-total h2{
+
+    margin-top:4px;
+
+    font-size:24px;
+
+    color:#111827;
+}
+
 .portfolio-chart{
-    flex:1;
-    position:relative;
+
     width:100%;
-    min-height:300px;
-}
 
-.portfolio-loading{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:18px;
-    color:#6b7280;
+    height:220px;
 }
-
