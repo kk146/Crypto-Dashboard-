@@ -2,13 +2,27 @@ import logo from "../Almabetterlogo.png";
 import "../Styles/Header.css";
 
 function Header({ currency, setCurrency, search, setSearch }) {
-  return (
-    <header className="header">
+return (
+<header className="header">
 
-      <div className="header-logo">
-        <img src={logo} alt="AlmaBetter" />
+      {/* Left Side */}
+      <div className="header-left">
+
+        <div className="logo">
+          <img
+            src={logo}
+            alt="AlmaBetter"
+            className="logo-image"
+          />
+        </div>
+
+        <h2 className="logo-title">
+          AlmaBetter
+        </h2>
+
       </div>
 
+      {/* Center Search */}
       <div className="search-box">
         <input
           type="text"
@@ -18,20 +32,25 @@ function Header({ currency, setCurrency, search, setSearch }) {
         />
       </div>
 
-      <div className="currency-box">
-        <select
-          value={currency}
-          onChange={(e) => setCurrency(e.target.value)}
-        >
-          <option value="usd">USD</option>
-          <option value="inr">INR</option>
-          <option value="eur">EUR</option>
-          <option value="gbp">GBP</option>
-        </select>
+      {/* Right Currency */}
+      {/* Currency Dropdown */}
+<div className="currency-box">
+<select
+value={currency}
+@@ -45,6 +17,16 @@ function Header({ currency, setCurrency, search, setSearch }) {
+</select>
+</div>
+
+      {/* Search Box */}
+      <div className="search-box">
+        <input
+          type="text"
+          placeholder="Search by coin..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
-    </header>
-  );
+</header>
+);
 }
-
-export default Header;
