@@ -6,7 +6,7 @@ import {
 } from "chart.js";
 
 import { Doughnut } from "react-chartjs-2";
-import "../Styles/portfolio.css";
+import "../Styles/piechart.css";
 
 ChartJS.register(
   ArcElement,
