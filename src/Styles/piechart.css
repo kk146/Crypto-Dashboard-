@@ -1,8 +1,4 @@
-/* ================================
-   MARKET CAP CARD
-================================ */
-
-.marketcap-card {
+.portfolio-card {
   width: 100%;
   height: 100%;
 
@@ -12,28 +8,27 @@
 
   border-radius: 16px;
 
-  padding: 18px 20px;
+  padding: 20px;
 
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-
-  overflow: hidden;
 }
 
 
-/* ================================
-   HEADER
-================================ */
 
-.marketcap-header {
+.portfolio-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
   margin-bottom: 8px;
 }
 
-.marketcap-header h2 {
+.portfolio-header h2 {
   margin: 0;
 
-  font-size: 16px;
-
-  line-height: 1.3;
+  font-size: 18px;
 
   font-weight: 700;
 
@@ -41,194 +36,43 @@
 }
 
 
-/* ================================
-   LIST
-================================ */
-
-.market-list {
+.portfolio-total {
   display: flex;
 
   flex-direction: column;
 
-  width: 100%;
-
-  max-height: 430px;
-
-  overflow-y: auto;
-}
-
-
-/* Scrollbar */
-
-.market-list::-webkit-scrollbar {
-  width: 4px;
-}
-
-.market-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.market-list::-webkit-scrollbar-thumb {
-  background: #d7dce3;
-
-  border-radius: 10px;
-}
-
-
-/* ================================
-   MARKET ITEM
-================================ */
-
-.market-item {
-  min-height: 58px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 10px;
-
-  padding: 9px 0;
-
-  box-sizing: border-box;
-
-  border-bottom: 1px solid #edf0f3;
-}
-
-.market-item:last-child {
-  border-bottom: none;
-}
-
-
-/* ================================
-   LEFT SIDE
-================================ */
-
-.market-left {
-  min-width: 0;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
-}
-
-
-/* Coin image */
-
-.market-coin-image {
-  width: 26px;
-
-  height: 26px;
-
-  flex: 0 0 26px;
-
-  object-fit: contain;
-
-  border-radius: 50%;
-}
-
-
-/* ================================
-   COIN INFORMATION
-================================ */
-
-.market-info {
-  min-width: 0;
-
-  display: flex;
-
-  flex-direction: column;
+  align-items: flex-end;
 
   gap: 2px;
 }
 
-
-/* Name */
-
-.market-name {
-  font-size: 13px;
-
-  line-height: 16px;
-
-  font-weight: 600;
-
-  color: #111827;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-}
-
-
-/* Market cap */
-
-.market-symbol {
-  font-size: 10px;
-
-  line-height: 13px;
-
-  color: #9ca3af;
-
-  white-space: nowrap;
-}
-
-
-/* ================================
-   PRICE CHANGE
-================================ */
-
-.market-change {
-  flex-shrink: 0;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 3px;
-
+.portfolio-total span {
   font-size: 11px;
 
-  font-weight: 600;
+  color: #9ca3af;
+}
 
-  white-space: nowrap;
+.portfolio-total strong {
+  font-size: 20px;
+
+  line-height: 1.2;
+
+  color: #111827;
 }
 
 
-/* Positive */
 
-.market-change.positive {
-  color: #10b981;
+.portfolio-chart {
+  width: 100%;
+
+  height: 220px;
+
+  position: relative;
 }
 
 
-/* Negative */
-
-.market-change.negative {
-  color: #f97316;
-}
-
-
-/* Arrow */
-
-.change-arrow {
-  font-size: 9px;
-
-  line-height: 1;
-}
-
-
-/* ================================
-   LOADING
-================================ */
-
-.market-loading {
-  min-height: 250px;
+.portfolio-loading {
+  height: 220px;
 
   display: flex;
 
@@ -236,70 +80,28 @@
 
   justify-content: center;
 
-  text-align: center;
-
   color: #9ca3af;
 
   font-size: 13px;
 }
 
 
-/* ================================
-   TABLET
-================================ */
-
-@media (max-width: 1000px) {
-
-  .marketcap-card {
-    padding: 16px;
-  }
-
-  .market-name {
-    font-size: 12px;
-  }
-
-  .market-symbol {
-    font-size: 9px;
-  }
-
-  .market-change {
-    font-size: 10px;
-  }
-}
-
-
-/* ================================
-   MOBILE
-================================ */
 
 @media (max-width: 700px) {
 
-  .marketcap-card {
+  .portfolio-card {
     padding: 18px;
   }
 
-  .market-list {
-    max-height: none;
+  .portfolio-chart {
+    height: 200px;
   }
 
-  .market-item {
-    min-height: 62px;
+  .portfolio-header h2 {
+    font-size: 17px;
   }
 
-  .market-coin-image {
-    width: 28px;
-    height: 28px;
-  }
-
-  .market-name {
-    font-size: 13px;
-  }
-
-  .market-symbol {
-    font-size: 10px;
-  }
-
-  .market-change {
-    font-size: 11px;
+  .portfolio-total strong {
+    font-size: 18px;
   }
 }
