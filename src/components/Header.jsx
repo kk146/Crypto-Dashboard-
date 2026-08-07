@@ -5,10 +5,12 @@ function Header({ currency, setCurrency, search, setSearch }) {
   return (
     <header className="header">
 
+      {/* AlmaBetter Logo */}
       <div className="header-logo">
         <img src={logo} alt="AlmaBetter" />
       </div>
 
+      {/* Search */}
       <div className="search-box">
         <input
           type="text"
@@ -18,6 +20,7 @@ function Header({ currency, setCurrency, search, setSearch }) {
         />
       </div>
 
+      {/* Currency */}
       <div className="currency-box">
         <select
           value={currency}
