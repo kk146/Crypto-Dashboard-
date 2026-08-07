@@ -1,111 +1,158 @@
-import { useEffect, useState } from "react";
-import { getExchangeRates } from "../Services/api";
+import { useState } from "react";
 import "../Styles/converter.css";
 
-function ExchangeConverter({ currency = "usd" }) {
-  const [rates, setRates] = useState({});
-  const [sell, setSell] = useState(currency);
-  const [buy, setBuy] = useState("btc");
-  const [amount, setAmount] = useState(1000);
-  const [result, setResult] = useState("");
+function ExchangeConverter({ currency }) {
+  const [amount, setAmount] = useState("1000");
+  const [fromCurrency, setFromCurrency] = useState(currency || "usd");
+  const [toCurrency, setToCurrency] = useState("inr");
+  const [result, setResult] = useState(null);
 
-  useEffect(() => {
-    const loadRates = async () => {
-      try {
-        const data = await getExchangeRates();
-        setRates(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    loadRates();
-  }, []);
-
-  useEffect(() => {
-    setSell(currency);
-  }, [currency]);
+  const rates = {
+    usd: {
+      inr: 87,
+      eur: 0.86,
+      gbp: 0.75,
+      usd: 1,
+    },
+    inr: {
+      usd: 0.0115,
+      eur: 0.0099,
+      gbp: 0.0086,
+      inr: 1,
+    },
+    eur: {
+      usd: 1.16,
+      inr: 101,
+      gbp: 0.87,
+      eur: 1,
+    },
+    gbp: {
+      usd: 1.34,
+      inr: 116,
+      eur: 1.15,
+      gbp: 1,
+    },
+  };
 
   const handleExchange = () => {
-    if (!rates[sell] || !rates[buy]) {
-      setResult("Exchange unavailable");
+    const numericAmount = Number(amount);
+
+    if (!numericAmount || numericAmount <= 0) {
+      setResult(null);
       return;
     }
 
-    const fromRate = rates[sell].value;
-    const toRate = rates[buy].value;
+    const rate = rates[fromCurrency]?.[toCurrency] || 1;
 
-    const btcValue = Number(amount) / fromRate;
-    const converted = btcValue * toRate;
+    setResult(numericAmount * rate);
+  };
 
-    setResult(`${converted.toFixed(6)} ${buy.toUpperCase()}`);
+  const swapCurrencies = () => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+    setResult(null);
   };
 
   return (
     <div className="converter-card">
 
       <div className="converter-header">
-        <h2>Exchange Coins</h2>
+        <div>
+          <h2>Exchange Coins</h2>
+          <p>Convert your currency</p>
+        </div>
       </div>
 
-      <div className="exchange-box">
+      {/* Amount */}
+      <div className="amount-group">
+        <label>Amount</label>
 
-        <label>Sell</label>
+        <input
+          type="number"
+          min="0"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="1000"
+        />
+      </div>
 
-        <div className="exchange-row">
+      {/* Currency selectors */}
+      <div className="converter-row">
+
+        <div className="currency-field">
+          <label>Sell</label>
+
           <select
-            value={sell}
-            onChange={(e) => setSell(e.target.value)}
+            value={fromCurrency}
+            onChange={(e) => {
+              setFromCurrency(e.target.value);
+              setResult(null);
+            }}
           >
-            {Object.keys(rates).map((coin) => (
-              <option key={coin} value={coin}>
-                {coin.toUpperCase()}
-              </option>
-            ))}
+            <option value="usd">USD</option>
+            <option value="inr">INR</option>
+            <option value="eur">EUR</option>
+            <option value="gbp">GBP</option>
           </select>
+        </div>
 
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
+        <button
+          type="button"
+          className="swap-button"
+          onClick={swapCurrencies}
+          aria-label="Swap currencies"
+        >
+          ⇄
+        </button>
+
+        <div className="currency-field">
+          <label>Buy</label>
+
+          <select
+            value={toCurrency}
+            onChange={(e) => {
+              setToCurrency(e.target.value);
+              setResult(null);
+            }}
+          >
+            <option value="usd">USD</option>
+            <option value="inr">INR</option>
+            <option value="eur">EUR</option>
+            <option value="gbp">GBP</option>
+          </select>
         </div>
 
       </div>
 
-      <div className="swap-icon">
-        ⇅
-      </div>
-
-      <div className="exchange-box">
-
-        <label>Buy</label>
-
-        <div className="exchange-row">
-          <select
-            value={buy}
-            onChange={(e) => setBuy(e.target.value)}
-          >
-            {Object.keys(rates).map((coin) => (
-              <option key={coin} value={coin}>
-                {coin.toUpperCase()}
-              </option>
-            ))}
-          </select>
-
-          <div className="buy-result">
-            {result || "0.000000"}
-          </div>
-        </div>
-
-      </div>
-
+      {/* Exchange button */}
       <button
-        className="exchange-btn"
+        type="button"
+        className="convert-btn"
         onClick={handleExchange}
       >
         Exchange
       </button>
+
+      {/* Result */}
+      {result !== null && (
+        <div className="result-box">
+          <span>
+            {Number(amount).toLocaleString()}{" "}
+            {fromCurrency.toUpperCase()}
+          </span>
+
+          <strong>
+            =
+          </strong>
+
+          <span>
+            {result.toLocaleString(undefined, {
+              maximumFractionDigits: 2,
+            })}{" "}
+            {toCurrency.toUpperCase()}
+          </span>
+        </div>
+      )}
 
     </div>
   );
