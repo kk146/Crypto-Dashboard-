@@ -1,48 +1,208 @@
-.header{
-    display:flex;
-    align-items:center;
-    gap:25px;
+/* =========================
+   HEADER
+========================= */
 
-    background:#fff;
-    border-radius:20px;
+.header {
+  width: 100%;
+  min-height: 64px;
 
-    padding:20px 30px;
+  display: flex;
+  align-items: center;
 
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
+  gap: 28px;
+
+  background: #ffffff;
+  border-radius: 18px;
+
+  padding: 12px 20px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 }
 
-.header-logo{
-    width:170px;
-    flex-shrink:0;
+
+/* =========================
+   ALMABETTER LOGO
+========================= */
+
+.header-logo {
+  width: 125px;
+  height: 42px;
+
+  flex: 0 0 125px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  overflow: hidden;
 }
 
-.header-logo img{
-    width:100%;
-    height:45px;
-    object-fit:contain;
-    display:block;
+.header-logo img {
+  width: 120px;
+  height: 38px;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: contain;
+
+  display: block;
 }
 
-.search-box{
-    flex:1;
+
+/* =========================
+   SEARCH BOX
+========================= */
+
+.search-box {
+  flex: 1;
+  min-width: 0;
 }
 
-.search-box input{
-    width:100%;
-    padding:14px 18px;
+.search-box input {
+  width: 100%;
+  height: 42px;
 
-    border-radius:12px;
-    border:1px solid #ddd;
+  padding: 0 18px;
 
-    font-size:16px;
+  box-sizing: border-box;
+
+  border-radius: 10px;
+  border: 1px solid #e2e5ea;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.currency-box select{
-    padding:14px 18px;
+.search-box input::placeholder {
+  color: #9ca3af;
+}
 
-    border-radius:12px;
+.search-box input:focus {
+  border-color: #2563eb;
 
-    border:1px solid #ddd;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
 
-    font-size:16px;
+
+/* =========================
+   CURRENCY SELECTOR
+========================= */
+
+.currency-box {
+  flex: 0 0 auto;
+}
+
+.currency-box select {
+  width: 105px;
+  height: 42px;
+
+  padding: 0 14px;
+
+  border-radius: 10px;
+  border: 1px solid #e2e5ea;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  outline: none;
+}
+
+.currency-box select:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+  .header {
+    gap: 18px;
+    padding: 12px 16px;
+  }
+
+  .header-logo {
+    width: 110px;
+    flex-basis: 110px;
+  }
+
+  .header-logo img {
+    width: 105px;
+    height: 34px;
+  }
+
+  .currency-box select {
+    width: 90px;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .header {
+    min-height: auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr auto;
+
+    gap: 12px;
+
+    padding: 14px;
+  }
+
+  .header-logo {
+    width: 110px;
+    height: 36px;
+
+    flex: none;
+  }
+
+  .header-logo img {
+    width: 105px;
+    height: 34px;
+  }
+
+  .currency-box {
+    justify-self: end;
+  }
+
+  .search-box {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .search-box input {
+    height: 40px;
+  }
+
+  .currency-box select {
+    width: 90px;
+    height: 40px;
+  }
 }
