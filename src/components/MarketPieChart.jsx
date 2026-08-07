@@ -6,7 +6,8 @@ import {
 } from "chart.js";
 
 import { Doughnut } from "react-chartjs-2";
-import "../Styles/piechart.css";
+
+import "../Styles/marketpie.css";
 
 ChartJS.register(
   ArcElement,
@@ -14,14 +15,37 @@ ChartJS.register(
   Legend
 );
 
-function Portfolio() {
+function MarketPieChart({ coins }) {
+  if (!coins || coins.length === 0) {
+    return (
+      <div className="portfolio-card">
+        <h2>Portfolio</h2>
+
+        <div className="portfolio-loading">
+          Loading portfolio...
+        </div>
+      </div>
+    );
+  }
+
+  // Use the first 3 cryptocurrencies
+  const topCoins = coins.slice(0, 3);
+
+  const values = topCoins.map((coin) =>
+    Number(coin.current_price || 0)
+  );
+
+  const totalValue = values.reduce(
+    (sum, value) => sum + value,
+    0
+  );
 
   const data = {
-    labels: ["Tether", "Luna", "Ethereum"],
+    labels: topCoins.map((coin) => coin.name),
 
     datasets: [
       {
-        data: [375, 375, 250],
+        data: values,
 
         backgroundColor: [
           "#4F8EF7",
@@ -30,6 +54,8 @@ function Portfolio() {
         ],
 
         borderWidth: 0,
+
+        hoverOffset: 5,
       },
     ],
   };
@@ -39,7 +65,7 @@ function Portfolio() {
 
     maintainAspectRatio: false,
 
-    cutout: "0%",
+    cutout: "58%",
 
     plugins: {
       legend: {
@@ -47,11 +73,29 @@ function Portfolio() {
 
         labels: {
           usePointStyle: true,
+
           pointStyle: "circle",
-          padding: 18,
+
+          padding: 12,
+
+          boxWidth: 8,
 
           font: {
-            size: 14,
+            size: 12,
+          },
+
+          color: "#374151",
+        },
+      },
+
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const value = Number(
+              context.raw || 0
+            );
+
+            return ` $${value.toLocaleString()}`;
           },
         },
       },
@@ -61,19 +105,24 @@ function Portfolio() {
   return (
     <div className="portfolio-card">
 
-      <div className="portfolio-top">
+      {/* Header */}
+      <div className="portfolio-header">
 
-        <div>
-          <h3>Portfolio</h3>
-        </div>
+        <h2>Portfolio</h2>
 
         <div className="portfolio-total">
+
           <span>Total value</span>
-          <h2>$1000</h2>
+
+          <strong>
+            ${totalValue.toFixed(0)}
+          </strong>
+
         </div>
 
       </div>
 
+      {/* Chart */}
       <div className="portfolio-chart">
 
         <Doughnut
@@ -87,4 +136,4 @@ function Portfolio() {
   );
 }
 
-export default Portfolio;
+export default MarketPieChart;
