@@ -6,8 +6,8 @@ function MarketCapList({ coins }) {
       <div className="marketcap-card">
         <h2>Cryptocurrency by Market Cap</h2>
 
-        <div className="loading-market">
-          Loading...
+        <div className="market-loading">
+          Loading cryptocurrencies...
         </div>
       </div>
     );
@@ -16,61 +16,74 @@ function MarketCapList({ coins }) {
   return (
     <div className="marketcap-card">
 
-      <h2 className="market-title">
-        Cryptocurrency by Market Cap
-      </h2>
+      <div className="marketcap-header">
+        <h2>
+          Cryptocurrency by
+          <br />
+          market cap
+        </h2>
+      </div>
 
       <div className="market-list">
 
-        {coins.slice(0, 10).map((coin) => (
+        {coins.slice(0, 8).map((coin) => {
 
-          <div
-            className="market-item"
-            key={coin.id}
-          >
+          const change = Number(
+            coin.price_change_percentage_24h || 0
+          );
 
-            <div className="market-left">
+          return (
+            <div
+              className="market-item"
+              key={coin.id}
+            >
 
-              <img
-                src={coin.image}
-                alt={coin.name}
-                className="coin-logo"
-              />
+              {/* Left */}
+              <div className="market-left">
 
-              <div className="coin-details">
+                <img
+                  src={coin.image}
+                  alt={coin.name}
+                  className="market-coin-image"
+                />
 
-                <h4>{coin.name}</h4>
+                <div className="market-info">
 
-                <p>
-                  Mkt Cap $
-                  {coin.market_cap.toLocaleString()}
-                </p>
+                  <div className="market-name">
+                    {coin.name}
+                  </div>
+
+                  <div className="market-symbol">
+                    Mkt.Cap{" "}
+                    {Number(
+                      coin.market_cap || 0
+                    ).toLocaleString()}
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* Right */}
+              <div
+                className={`market-change ${
+                  change >= 0
+                    ? "positive"
+                    : "negative"
+                }`}
+              >
+
+                <span className="change-arrow">
+                  {change >= 0 ? "▲" : "▼"}
+                </span>
+
+                {Math.abs(change).toFixed(2)}%
 
               </div>
 
             </div>
-
-            <div className="market-right">
-
-              <span
-                className={
-                  coin.price_change_percentage_24h >= 0
-                    ? "positive"
-                    : "negative"
-                }
-              >
-                {coin.price_change_percentage_24h >= 0 ? "▲ " : "▼ "}
-                {Math.abs(
-                  coin.price_change_percentage_24h
-                ).toFixed(2)}
-                %
-              </span>
-
-            </div>
-
-          </div>
-
-        ))}
+          );
+        })}
 
       </div>
 
