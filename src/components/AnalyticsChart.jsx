@@ -5,97 +5,295 @@ import "../Styles/analytics.css";
 
 function AnalyticsChart({ coins = [], currency }) {
   const [timeRange, setTimeRange] = useState("1W");
-  const [selectedCoin, setSelectedCoin] = useState("bitcoin");
-  const [chartType, setChartType] = useState("line");
-  const [chartData, setChartData] = useState(null);
 
-  // Set first coin after API loads
+  // Multiple coins
+  const [selectedCoins, setSelectedCoins] = useState([
+    "bitcoin",
+    "ethereum",
+  ]);
+
+  const [chartType, setChartType] = useState("line");
+  const [chartData, setChartData] = useState([]);
+
+  // Set default coins when API loads
   useEffect(() => {
     if (coins.length > 0) {
-      setSelectedCoin(coins[0].id);
+      const availableIds = coins.map((coin) => coin.id);
+
+      const defaultCoins = availableIds.filter((id) =>
+        ["bitcoin", "ethereum", "tether"].includes(id)
+      );
+
+      if (defaultCoins.length > 0) {
+        setSelectedCoins(defaultCoins.slice(0, 3));
+      } else {
+        setSelectedCoins(availableIds.slice(0, 3));
+      }
     }
   }, [coins]);
 
-  // Load chart
+  // Get number of days
+  const getDays = () => {
+    switch (timeRange) {
+      case "1D":
+        return 1;
+
+      case "1W":
+        return 7;
+
+      case "1M":
+        return 30;
+
+      case "6M":
+        return 180;
+
+      case "1Y":
+        return 365;
+
+      default:
+        return 7;
+    }
+  };
+
+  // Load multiple coin charts
   useEffect(() => {
-    if (!selectedCoin) return;
+    if (!selectedCoins.length) return;
 
-    const loadChart = async () => {
+    const loadCharts = async () => {
       try {
-        let days = 7;
+        const days = getDays();
 
-        switch (timeRange) {
-          case "1D":
-            days = 1;
-            break;
-          case "1W":
-            days = 7;
-            break;
-          case "1M":
-            days = 30;
-            break;
-          case "6M":
-            days = 180;
-            break;
-          case "1Y":
-            days = 365;
-            break;
-          default:
-            days = 7;
-        }
+        const results = await Promise.all(
+          selectedCoins.map(async (coinId) => {
+            const data = await getChartData(
+              coinId,
+              currency,
+              days
+            );
 
-        const data = await getChartData(selectedCoin, currency, days);
+            return {
+              id: coinId,
+              data,
+            };
+          })
+        );
 
-        console.log("Chart API:", data);
+        console.log("Multiple Chart API:", results);
 
-        setChartData(data);
-      } catch (err) {
-        console.error(err);
+        setChartData(results);
+      } catch (error) {
+        console.error("Chart API Error:", error);
       }
     };
 
-    loadChart();
-  }, [selectedCoin, currency, timeRange]);
+    loadCharts();
+  }, [selectedCoins, currency, timeRange]);
+
+  // Add/remove coin
+  const handleCoinChange = (coinId) => {
+    setSelectedCoins((previous) => {
+      // Remove coin
+      if (previous.includes(coinId)) {
+        return previous.filter((id) => id !== coinId);
+      }
+
+      // Maximum 5 coins
+      if (previous.length >= 5) {
+        return previous;
+      }
+
+      // Add coin
+      return [...previous, coinId];
+    });
+  };
 
   return (
     <div className="analytics-card">
-      <div className="analytics-toolbar">
-        <div className="time-buttons">
-          {["1D", "1W", "1M", "6M", "1Y"].map((item) => (
-            <button
-              key={item}
-              className={timeRange === item ? "active" : ""}
-              onClick={() => setTimeRange(item)}
-            >
-              {item}
-            </button>
-          ))}
+
+      {/* =========================
+          HEADER
+      ========================= */}
+
+      <div className="analytics-header">
+
+        <div className="analytics-title">
+          <h2>Crypto Market Analytics</h2>
+
+          <p>
+            Compare cryptocurrency prices
+          </p>
         </div>
 
+      </div>
+
+
+      {/* =========================
+          TOOLBAR
+      ========================= */}
+
+      <div className="analytics-toolbar">
+
+        {/* Time range */}
+
+        <div className="time-buttons">
+
+          {["1D", "1W", "1M", "6M", "1Y"].map(
+            (item) => (
+              <button
+                key={item}
+                type="button"
+                className={
+                  timeRange === item
+                    ? "active"
+                    : ""
+                }
+                onClick={() =>
+                  setTimeRange(item)
+                }
+              >
+                {item}
+              </button>
+            )
+          )}
+
+        </div>
+
+
+        {/* Controls */}
+
         <div className="toolbar-right">
-          <select
-            value={selectedCoin}
-            onChange={(e) => setSelectedCoin(e.target.value)}
-          >
-            {coins.map((coin) => (
-              <option key={coin.id} value={coin.id}>
-                {coin.name}
-              </option>
-            ))}
-          </select>
+
+          {/* Multi Coin Selector */}
+
+          <div className="coin-selector">
+
+            <button
+              type="button"
+              className="coin-selector-button"
+            >
+              {selectedCoins.length === 0
+                ? "Select coins"
+                : `${selectedCoins.length} coins selected`}
+            </button>
+
+            <div className="coin-dropdown">
+
+              {coins.map((coin) => (
+
+                <label
+                  key={coin.id}
+                  className="coin-option"
+                >
+
+                  <input
+                    type="checkbox"
+                    checked={selectedCoins.includes(
+                      coin.id
+                    )}
+                    onChange={() =>
+                      handleCoinChange(
+                        coin.id
+                      )
+                    }
+                  />
+
+                  <img
+                    src={coin.image}
+                    alt={coin.name}
+                  />
+
+                  <span>
+                    {coin.name}
+                  </span>
+
+                </label>
+
+              ))}
+
+            </div>
+
+          </div>
+
+
+          {/* Chart type */}
 
           <select
             value={chartType}
-            onChange={(e) => setChartType(e.target.value)}
+            onChange={(e) =>
+              setChartType(e.target.value)
+            }
           >
-            <option value="line">Line Chart</option>
+            <option value="line">
+              Line Chart
+            </option>
 
-            <option value="bar">Bar Chart</option>
+            <option value="bar">
+              Bar Chart
+            </option>
           </select>
+
         </div>
+
       </div>
 
-      <CryptoChart chartData={chartData} chartType={chartType} />
+
+      {/* =========================
+          SELECTED COINS
+      ========================= */}
+
+      <div className="selected-coins">
+
+        {selectedCoins.map((coinId) => {
+
+          const coin = coins.find(
+            (item) => item.id === coinId
+          );
+
+          if (!coin) return null;
+
+          return (
+            <div
+              className="selected-coin"
+              key={coin.id}
+            >
+
+              <img
+                src={coin.image}
+                alt={coin.name}
+              />
+
+              <span>
+                {coin.name}
+              </span>
+
+              <button
+                type="button"
+                onClick={() =>
+                  handleCoinChange(
+                    coin.id
+                  )
+                }
+              >
+                ×
+              </button>
+
+            </div>
+          );
+        })}
+
+      </div>
+
+
+      {/* =========================
+          CHART
+      ========================= */}
+
+      <CryptoChart
+        chartData={chartData}
+        chartType={chartType}
+        coins={coins}
+      />
+
     </div>
   );
 }
