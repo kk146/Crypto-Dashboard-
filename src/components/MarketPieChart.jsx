@@ -7,7 +7,7 @@ import {
 
 import { Doughnut } from "react-chartjs-2";
 
-import "../Styles/marketpie.css";
+import "../Styles/piechart.css";
 
 ChartJS.register(
   ArcElement,
