@@ -16,13 +16,13 @@
   color: #666;
 }
 
-/* Chart canvas */
+
 .crypto-chart-container canvas {
   width: 100% !important;
   height: 420px !important;
 }
 
-/* Mobile */
+
 @media (max-width: 768px) {
   .crypto-chart-container {
     height: 350px;
