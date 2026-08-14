@@ -1,168 +1,81 @@
-.marketcap-card {
+.marketcap-container {
   width: 100%;
   height: 100%;
-
-  box-sizing: border-box;
-
-  background: #ffffff;
-
-  border-radius: 16px;
-
-  padding: 18px 20px;
-
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
 
   overflow: hidden;
 }
 
 
-.marketcap-header {
-  margin-bottom: 8px;
-}
+.marketcap-title {
+  margin: 0 0 15px 0;
 
-.marketcap-header h2 {
-  margin: 0;
-
-  font-size: 16px;
-
-  line-height: 1.3;
+  font-size: 18px;
 
   font-weight: 700;
 
-  color: #111827;
+  color: #222;
 }
 
 
-.market-list {
-  display: flex;
-
-  flex-direction: column;
-
+.marketcap-list {
   width: 100%;
-
-  max-height: 430px;
-
-  overflow-y: auto;
 }
 
 
-
-
-.market-list::-webkit-scrollbar {
-  width: 4px;
-}
-
-.market-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.market-list::-webkit-scrollbar-thumb {
-  background: #d7dce3;
-
-  border-radius: 10px;
-}
-
-
-.market-item {
-  min-height: 58px;
-
+.marketcap-item {
   display: flex;
 
   align-items: center;
 
-  justify-content: space-between;
-
   gap: 10px;
 
-  padding: 9px 0;
+  padding: 13px 0;
 
-  box-sizing: border-box;
-
-  border-bottom: 1px solid #edf0f3;
+  border-bottom: 1px solid #eeeeee;
 }
 
-.market-item:last-child {
+
+.marketcap-item:last-child {
   border-bottom: none;
 }
 
 
-.market-left {
-  min-width: 0;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
-}
-
-
-
-.market-coin-image {
-  width: 26px;
-
-  height: 26px;
-
-  flex: 0 0 26px;
+.marketcap-icon {
+  width: 28px;
+  height: 28px;
 
   object-fit: contain;
 
-  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 
-.market-info {
+.marketcap-info {
   min-width: 0;
 
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2px;
+  flex: 1;
 }
 
 
-
-.market-name {
+.marketcap-name {
   font-size: 13px;
 
-  line-height: 16px;
+  font-weight: 700;
 
-  font-weight: 600;
+  color: #222;
 
-  color: #111827;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
+  margin-bottom: 3px;
 }
 
 
-
-.market-symbol {
+.marketcap-value {
   font-size: 10px;
 
-  line-height: 13px;
-
-  color: #9ca3af;
-
-  white-space: nowrap;
+  color: #999;
 }
 
 
-
-
-.market-change {
-  flex-shrink: 0;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 3px;
-
+.marketcap-change {
   font-size: 11px;
 
   font-weight: 600;
@@ -171,92 +84,11 @@
 }
 
 
-
-
-.market-change.positive {
-  color: #10b981;
+.marketcap-change.positive {
+  color: #22a06b;
 }
 
 
-
-.market-change.negative {
-  color: #f97316;
-}
-
-
-
-.change-arrow {
-  font-size: 9px;
-
-  line-height: 1;
-}
-
-
-.market-loading {
-  min-height: 250px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-
-  color: #9ca3af;
-
-  font-size: 13px;
-}
-
-
-@media (max-width: 1000px) {
-
-  .marketcap-card {
-    padding: 16px;
-  }
-
-  .market-name {
-    font-size: 12px;
-  }
-
-  .market-symbol {
-    font-size: 9px;
-  }
-
-  .market-change {
-    font-size: 10px;
-  }
-}
-
-
-@media (max-width: 700px) {
-
-  .marketcap-card {
-    padding: 18px;
-  }
-
-  .market-list {
-    max-height: none;
-  }
-
-  .market-item {
-    min-height: 62px;
-  }
-
-  .market-coin-image {
-    width: 28px;
-    height: 28px;
-  }
-
-  .market-name {
-    font-size: 13px;
-  }
-
-  .market-symbol {
-    font-size: 10px;
-  }
-
-  .market-change {
-    font-size: 11px;
-  }
+.marketcap-change.negative {
+  color: #ef6c35;
 }
