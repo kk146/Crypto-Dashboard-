@@ -1,131 +1,110 @@
 import { useState, useEffect } from "react";
+
 import CryptoChart from "./CryptoChart";
+
 import { getChartData } from "../Services/api";
+
 import "../Styles/analytics.css";
 
 function AnalyticsChart({ coins = [], currency }) {
+
   const [timeRange, setTimeRange] = useState("1W");
 
-  // Multiple coins
-  const [selectedCoins, setSelectedCoins] = useState([
-    "bitcoin",
-    "ethereum",
-  ]);
+  const [selectedCoin, setSelectedCoin] = useState("bitcoin");
 
   const [chartType, setChartType] = useState("line");
-  const [chartData, setChartData] = useState([]);
 
-  // Set default coins when API loads
+  const [chartData, setChartData] = useState(null);
+
+
+  /* =========================
+     SET FIRST COIN
+  ========================= */
+
   useEffect(() => {
+
     if (coins.length > 0) {
-      const availableIds = coins.map((coin) => coin.id);
 
-      const defaultCoins = availableIds.filter((id) =>
-        ["bitcoin", "ethereum", "tether"].includes(id)
-      );
+      setSelectedCoin(coins[0].id);
 
-      if (defaultCoins.length > 0) {
-        setSelectedCoins(defaultCoins.slice(0, 3));
-      } else {
-        setSelectedCoins(availableIds.slice(0, 3));
-      }
     }
+
   }, [coins]);
 
-  // Get number of days
-  const getDays = () => {
-    switch (timeRange) {
-      case "1D":
-        return 1;
 
-      case "1W":
-        return 7;
+  /* =========================
+     LOAD CHART DATA
+  ========================= */
 
-      case "1M":
-        return 30;
-
-      case "6M":
-        return 180;
-
-      case "1Y":
-        return 365;
-
-      default:
-        return 7;
-    }
-  };
-
-  // Load multiple coin charts
   useEffect(() => {
-    if (!selectedCoins.length) return;
 
-    const loadCharts = async () => {
+    if (!selectedCoin) return;
+
+
+    const loadChart = async () => {
+
       try {
-        const days = getDays();
 
-        const results = await Promise.all(
-          selectedCoins.map(async (coinId) => {
-            const data = await getChartData(
-              coinId,
-              currency,
-              days
-            );
+        let days = 7;
 
-            return {
-              id: coinId,
-              data,
-            };
-          })
+
+        switch (timeRange) {
+
+          case "1D":
+            days = 1;
+            break;
+
+          case "1W":
+            days = 7;
+            break;
+
+          case "1M":
+            days = 30;
+            break;
+
+          case "6M":
+            days = 180;
+            break;
+
+          case "1Y":
+            days = 365;
+            break;
+
+          default:
+            days = 7;
+
+        }
+
+
+        const data = await getChartData(
+          selectedCoin,
+          currency,
+          days
         );
 
-        console.log("Multiple Chart API:", results);
 
-        setChartData(results);
+        setChartData(data);
+
       } catch (error) {
-        console.error("Chart API Error:", error);
+
+        console.error(
+          "Chart loading error:",
+          error
+        );
+
       }
+
     };
 
-    loadCharts();
-  }, [selectedCoins, currency, timeRange]);
 
-  // Add/remove coin
-  const handleCoinChange = (coinId) => {
-    setSelectedCoins((previous) => {
-      // Remove coin
-      if (previous.includes(coinId)) {
-        return previous.filter((id) => id !== coinId);
-      }
+    loadChart();
 
-      // Maximum 5 coins
-      if (previous.length >= 5) {
-        return previous;
-      }
+  }, [selectedCoin, currency, timeRange]);
 
-      // Add coin
-      return [...previous, coinId];
-    });
-  };
 
   return (
+
     <div className="analytics-card">
-
-      {/* =========================
-          HEADER
-      ========================= */}
-
-      <div className="analytics-header">
-
-        <div className="analytics-title">
-          <h2>Crypto Market Analytics</h2>
-
-          <p>
-            Compare cryptocurrency prices
-          </p>
-        </div>
-
-      </div>
-
 
       {/* =========================
           TOOLBAR
@@ -133,15 +112,16 @@ function AnalyticsChart({ coins = [], currency }) {
 
       <div className="analytics-toolbar">
 
-        {/* Time range */}
+
+        {/* TIME RANGE */}
 
         <div className="time-buttons">
 
           {["1D", "1W", "1M", "6M", "1Y"].map(
             (item) => (
+
               <button
                 key={item}
-                type="button"
                 className={
                   timeRange === item
                     ? "active"
@@ -153,69 +133,41 @@ function AnalyticsChart({ coins = [], currency }) {
               >
                 {item}
               </button>
+
             )
           )}
 
         </div>
 
 
-        {/* Controls */}
+        {/* RIGHT CONTROLS */}
 
         <div className="toolbar-right">
 
-          {/* Multi Coin Selector */}
+          {/* COIN */}
 
-          <div className="coin-selector">
+          <select
+            value={selectedCoin}
+            onChange={(e) =>
+              setSelectedCoin(e.target.value)
+            }
+          >
 
-            <button
-              type="button"
-              className="coin-selector-button"
-            >
-              {selectedCoins.length === 0
-                ? "Select coins"
-                : `${selectedCoins.length} coins selected`}
-            </button>
+            {coins.map((coin) => (
 
-            <div className="coin-dropdown">
+              <option
+                key={coin.id}
+                value={coin.id}
+              >
+                {coin.name}
+              </option>
 
-              {coins.map((coin) => (
+            ))}
 
-                <label
-                  key={coin.id}
-                  className="coin-option"
-                >
-
-                  <input
-                    type="checkbox"
-                    checked={selectedCoins.includes(
-                      coin.id
-                    )}
-                    onChange={() =>
-                      handleCoinChange(
-                        coin.id
-                      )
-                    }
-                  />
-
-                  <img
-                    src={coin.image}
-                    alt={coin.name}
-                  />
-
-                  <span>
-                    {coin.name}
-                  </span>
-
-                </label>
-
-              ))}
-
-            </div>
-
-          </div>
+          </select>
 
 
-          {/* Chart type */}
+          {/* CHART TYPE */}
 
           <select
             value={chartType}
@@ -223,6 +175,7 @@ function AnalyticsChart({ coins = [], currency }) {
               setChartType(e.target.value)
             }
           >
+
             <option value="line">
               Line Chart
             </option>
@@ -230,6 +183,7 @@ function AnalyticsChart({ coins = [], currency }) {
             <option value="bar">
               Bar Chart
             </option>
+
           </select>
 
         </div>
@@ -237,65 +191,22 @@ function AnalyticsChart({ coins = [], currency }) {
       </div>
 
 
-      {/* =========================
-          SELECTED COINS
-      ========================= */}
+      
 
-      <div className="selected-coins">
+      <div className="crypto-chart-container">
 
-        {selectedCoins.map((coinId) => {
-
-          const coin = coins.find(
-            (item) => item.id === coinId
-          );
-
-          if (!coin) return null;
-
-          return (
-            <div
-              className="selected-coin"
-              key={coin.id}
-            >
-
-              <img
-                src={coin.image}
-                alt={coin.name}
-              />
-
-              <span>
-                {coin.name}
-              </span>
-
-              <button
-                type="button"
-                onClick={() =>
-                  handleCoinChange(
-                    coin.id
-                  )
-                }
-              >
-                ×
-              </button>
-
-            </div>
-          );
-        })}
+        <CryptoChart
+          chartData={chartData}
+          chartType={chartType}
+          currency={currency}
+        />
 
       </div>
 
-
-      {/* =========================
-          CHART
-      ========================= */}
-
-      <CryptoChart
-        chartData={chartData}
-        chartType={chartType}
-        coins={coins}
-      />
-
     </div>
+
   );
+
 }
 
 export default AnalyticsChart;
