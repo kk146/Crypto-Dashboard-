@@ -17,9 +17,7 @@ function AnalyticsChart({ coins = [], currency }) {
   const [chartData, setChartData] = useState(null);
 
 
-  /* =========================
-     SET FIRST COIN
-  ========================= */
+ 
 
   useEffect(() => {
 
@@ -32,9 +30,7 @@ function AnalyticsChart({ coins = [], currency }) {
   }, [coins]);
 
 
-  /* =========================
-     LOAD CHART DATA
-  ========================= */
+  
 
   useEffect(() => {
 
@@ -106,14 +102,11 @@ function AnalyticsChart({ coins = [], currency }) {
 
     <div className="analytics-card">
 
-      {/* =========================
-          TOOLBAR
-      ========================= */}
+      
 
       <div className="analytics-toolbar">
 
 
-        {/* TIME RANGE */}
 
         <div className="time-buttons">
 
@@ -140,11 +133,11 @@ function AnalyticsChart({ coins = [], currency }) {
         </div>
 
 
-        {/* RIGHT CONTROLS */}
+      
 
         <div className="toolbar-right">
 
-          {/* COIN */}
+
 
           <select
             value={selectedCoin}
@@ -167,7 +160,7 @@ function AnalyticsChart({ coins = [], currency }) {
           </select>
 
 
-          {/* CHART TYPE */}
+         
 
           <select
             value={chartType}
