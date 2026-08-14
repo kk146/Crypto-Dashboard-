@@ -17,7 +17,6 @@ function Dashboard() {
   const [coins, setCoins] = useState([]);
   const [filteredCoins, setFilteredCoins] = useState([]);
 
-  // Fetch crypto data
   const fetchCoins = async () => {
     try {
       const data = await getCryptos(currency);
@@ -40,12 +39,10 @@ function Dashboard() {
     }
   };
 
-  // Load data when currency changes
   useEffect(() => {
     fetchCoins();
   }, [currency]);
 
-  // Filter search
   useEffect(() => {
     if (search.trim() === "") {
       setFilteredCoins(coins);
@@ -60,7 +57,6 @@ function Dashboard() {
     }
   }, [search, coins]);
 
-  // Auto Refresh Every 30 Seconds
   useEffect(() => {
     const interval = setInterval(() => {
       fetchCoins();
@@ -71,7 +67,8 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      {/* Header */}
+
+      {/* HEADER */}
       <Header
         currency={currency}
         setCurrency={setCurrency}
@@ -79,25 +76,39 @@ function Dashboard() {
         setSearch={setSearch}
       />
 
-      {/* Analytics */}
-      <section className="analytics-section">
-        <AnalyticsChart coins={filteredCoins} currency={currency} />
+      {/* CHART + MARKET CAP */}
+      <section className="main-market-section">
+
+        {/* LEFT: CHART */}
+        <div className="analytics-section">
+          <AnalyticsChart
+            coins={filteredCoins}
+            currency={currency}
+          />
+        </div>
+
+        {/* RIGHT: MARKET CAP */}
+        <div className="marketcap-card">
+          <MarketCapList coins={filteredCoins} />
+        </div>
+
       </section>
 
-      {/* Bottom Cards */}
+      {/* BOTTOM CARDS */}
       <section className="bottom-section">
+
+        {/* PORTFOLIO */}
         <div className="portfolio-card">
           <MarketPieChart coins={filteredCoins} />
         </div>
 
+        {/* EXCHANGE */}
         <div className="exchange-card">
           <ExchangeConverter currency={currency} />
         </div>
 
-        <div className="marketcap-card">
-          <MarketCapList coins={filteredCoins} />
-        </div>
       </section>
+
     </div>
   );
 }
