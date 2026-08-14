@@ -12,6 +12,7 @@ import {
 
 import { Line, Bar } from "react-chartjs-2";
 
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -23,294 +24,234 @@ ChartJS.register(
   Legend
 );
 
+
 function CryptoChart({
   chartData,
   chartType,
-  coins = [],
+  currency = "usd",
 }) {
-  console.log("CryptoChart Data:", chartData);
-
-  /* =========================
-     LOADING
-  ========================= */
 
   if (
     !chartData ||
-    !Array.isArray(chartData) ||
-    chartData.length === 0
+    !chartData.prices ||
+    chartData.prices.length === 0
   ) {
+
     return (
-      <div
-        style={{
-          width: "100%",
-          height: "420px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-          color: "#666",
-        }}
-      >
+      <div className="chart-loading">
         Loading Chart...
       </div>
     );
+
   }
 
-  /* =========================
-     COLORS
-  ========================= */
 
-  const colors = [
-    "#2563eb",
-    "#ef4444",
-    "#10b981",
-    "#f59e0b",
-    "#8b5cf6",
-  ];
-
-  /* =========================
-     FIND COIN NAME
-  ========================= */
-
-  const getCoinName = (coinId) => {
-    const coin = coins.find(
-      (item) => item.id === coinId
-    );
-
-    if (coin) {
-      return coin.name;
-    }
-
-    return coinId
-      .charAt(0)
-      .toUpperCase() + coinId.slice(1);
-  };
-
-  /* =========================
-     CREATE LABELS
-  ========================= */
-
-  const firstCoin = chartData[0];
-
-  if (
-    !firstCoin ||
-    !firstCoin.data ||
-    !firstCoin.data.prices
-  ) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          height: "420px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-          color: "#666",
-        }}
-      >
-        No chart data available
-      </div>
-    );
-  }
-
-  const labels = firstCoin.data.prices.map(
+  const labels = chartData.prices.map(
     (item) =>
       new Date(item[0]).toLocaleDateString()
   );
 
-  /* =========================
-     CREATE MULTIPLE DATASETS
-  ========================= */
 
-  const datasets = chartData.map(
-    (coinData, index) => {
-      const coinPrices =
-        coinData.data?.prices || [];
+  const values = chartData.prices.map(
+    (item) => item[1]
+  );
 
-      const values = coinPrices.map(
-        (item) => item[1]
-      );
 
-      const color =
-        colors[index % colors.length];
+  const currencySymbol = {
+    usd: "$",
+    inr: "₹",
+    eur: "€",
+    gbp: "£",
+  };
 
-      return {
-        label: getCoinName(coinData.id),
+
+  const symbol =
+    currencySymbol[currency] || "$";
+
+
+  const data = {
+
+    labels,
+
+    datasets: [
+      {
+        label: "Price",
 
         data: values,
 
-        borderColor: color,
+        borderColor: "#2563eb",
 
-        backgroundColor: `${color}22`,
+        backgroundColor:
+          "rgba(37, 99, 235, 0.08)",
 
-        borderWidth: 3,
+        borderWidth: 2.5,
 
-        fill: chartType === "line",
+        fill: true,
 
-        tension: 0.4,
+        tension: 0.35,
 
         pointRadius: 0,
 
-        pointHoverRadius: 6,
+        pointHoverRadius: 5,
 
-        pointHoverBackgroundColor: color,
+        pointHoverBackgroundColor:
+          "#2563eb",
 
-        pointHoverBorderColor: "#ffffff",
+        pointHoverBorderColor:
+          "#ffffff",
 
         pointHoverBorderWidth: 2,
-      };
-    }
-  );
-
-  /* =========================
-     CHART DATA
-  ========================= */
-
-  const data = {
-    labels,
-
-    datasets,
+      },
+    ],
   };
 
-  /* =========================
-     CHART OPTIONS
-  ========================= */
 
   const options = {
+
     responsive: true,
 
     maintainAspectRatio: false,
 
+
     interaction: {
+
       intersect: false,
 
       mode: "index",
+
     },
 
+
     plugins: {
+
       legend: {
-        display: true,
-
-        position: "top",
-
-        align: "start",
-
-        labels: {
-          usePointStyle: true,
-
-          pointStyle: "circle",
-
-          padding: 18,
-
-          font: {
-            size: 12,
-
-            weight: "600",
-          },
-
-          color: "#374151",
-        },
+        display: false,
       },
 
+
       tooltip: {
+
         backgroundColor: "#1f2937",
 
         titleColor: "#ffffff",
 
         bodyColor: "#ffffff",
 
-        padding: 12,
+        padding: 10,
 
-        displayColors: true,
+        displayColors: false,
 
         callbacks: {
+
           label: function (context) {
-            const value = Number(
-              context.raw || 0
-            );
 
             return (
-              " " +
-              context.dataset.label +
-              ": $" +
-              value.toLocaleString(
-                undefined,
-                {
-                  maximumFractionDigits: 2,
-                }
-              )
+              " Price: " +
+              symbol +
+              Number(
+                context.parsed.y
+              ).toLocaleString()
             );
+
           },
+
         },
+
       },
+
     },
 
+
     scales: {
+
       x: {
+
         grid: {
           display: false,
         },
 
         ticks: {
-          maxTicksLimit: 8,
 
-          color: "#9ca3af",
+          maxTicksLimit: 7,
+
+          color: "#777",
 
           font: {
-            size: 11,
+            size: 10,
           },
+
         },
+
       },
+
 
       y: {
+
         grid: {
-          color: "#edf2f7",
+
+          color: "#edf0f4",
+
         },
+
 
         ticks: {
-          color: "#9ca3af",
+
+          color: "#777",
 
           font: {
-            size: 11,
+            size: 10,
           },
+
 
           callback: function (value) {
+
             return (
-              "$" +
+              symbol +
               Number(value).toLocaleString()
             );
+
           },
+
         },
+
       },
+
     },
+
   };
 
-  /* =========================
-     RENDER
-  ========================= */
 
   return (
+
     <div
       style={{
         width: "100%",
-        height: "420px",
+        height: "100%",
         position: "relative",
       }}
     >
+
       {chartType === "bar" ? (
+
         <Bar
           data={data}
           options={options}
         />
+
       ) : (
+
         <Line
           data={data}
           options={options}
         />
+
       )}
+
     </div>
+
   );
+
 }
+
 
 export default CryptoChart;
