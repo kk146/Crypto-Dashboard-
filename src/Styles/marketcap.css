@@ -1,94 +1,61 @@
-.marketcap-container {
+.marketcap-card {
   width: 100%;
   height: 100%;
-
-  overflow: hidden;
-}
-
-
-.marketcap-title {
-  margin: 0 0 15px 0;
-
-  font-size: 18px;
-
-  font-weight: 700;
-
-  color: #222;
-}
-
-
-.marketcap-list {
-  width: 100%;
-}
-
-
-.marketcap-item {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
   display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  padding: 13px 0;
-
-  border-bottom: 1px solid #eeeeee;
+  flex-direction: column;
 }
 
-
-.marketcap-item:last-child {
-  border-bottom: none;
+.marketcap-header {
+  margin-bottom: 12px;
 }
 
-
-.marketcap-icon {
-  width: 28px;
-  height: 28px;
-
-  object-fit: contain;
-
-  flex-shrink: 0;
-}
-
-
-.marketcap-info {
-  min-width: 0;
-
-  flex: 1;
-}
-
-
-.marketcap-name {
-  font-size: 13px;
-
+.marketcap-header h2 {
+  margin: 0;
+  font-size: 18px;
   font-weight: 700;
-
   color: #222;
-
-  margin-bottom: 3px;
 }
 
-
-.marketcap-value {
-  font-size: 10px;
-
-  color: #999;
+/* Container for stacked images */
+.marketcap-images {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 16px;
 }
 
-
-.marketcap-change {
-  font-size: 11px;
-
-  font-weight: 600;
-
-  white-space: nowrap;
+.marketcap-image-box {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f9fafb;
 }
 
-
-.marketcap-change.positive {
-  color: #22a06b;
+.marketcap-image-box img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
 }
 
+/* Responsive adjustments */
+@media (max-width: 700px) {
+  .marketcap-card {
+    padding: 16px;
+  }
 
-.marketcap-change.negative {
-  color: #ef6c35;
+  .marketcap-header h2 {
+    font-size: 16px;
+  }
+
+  .marketcap-images {
+    gap: 12px;
+  }
 }
