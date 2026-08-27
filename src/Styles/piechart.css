@@ -1,96 +1,70 @@
 .portfolio-card {
   width: 100%;
   height: 100%;
-
   box-sizing: border-box;
-
   background: #ffffff;
-
   border-radius: 16px;
-
   padding: 20px;
-
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
 }
 
-
-
+/* Header */
 .portfolio-header {
   display: flex;
-
   justify-content: space-between;
-
-  align-items: flex-start;
-
-  margin-bottom: 8px;
+  align-items: center; /* better alignment */
+  margin-bottom: 12px;
 }
 
 .portfolio-header h2 {
   margin: 0;
-
   font-size: 18px;
-
   font-weight: 700;
-
   color: #111827;
 }
 
-
+/* Total value */
 .portfolio-total {
   display: flex;
-
   flex-direction: column;
-
   align-items: flex-end;
-
-  gap: 2px;
+  gap: 4px;
 }
 
 .portfolio-total span {
-  font-size: 11px;
-
+  font-size: 12px;
   color: #9ca3af;
 }
 
 .portfolio-total strong {
   font-size: 20px;
-
   line-height: 1.2;
-
   color: #111827;
 }
 
-
-
+/* Chart container */
 .portfolio-chart {
   width: 100%;
-
-  height: 220px;
-
+  height: 240px; /* slightly larger for pie chart */
   position: relative;
 }
 
-
+/* Loading state */
 .portfolio-loading {
-  height: 220px;
-
+  height: 240px;
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   color: #9ca3af;
-
-  font-size: 13px;
+  font-size: 14px;
 }
 
-
-
+/* Responsive adjustments */
 @media (max-width: 700px) {
-
   .portfolio-card {
-    padding: 18px;
+    padding: 16px;
   }
 
   .portfolio-chart {
@@ -98,7 +72,7 @@
   }
 
   .portfolio-header h2 {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .portfolio-total strong {
